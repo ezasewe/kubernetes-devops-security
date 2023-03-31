@@ -12,17 +12,17 @@ pipeline {
               
             }
       }
-//      stage('Unit Tests - JUnit and Jacoco') {
-//      steps {
-//        sh "mvn test"
-//      }
-//      post {
-//        always {
-//          junit 'target/surefire-reports/*.xml'
-//          jacoco execPattern: 'target/jacoco.exec'
-//        }
-//      }
-//    }
+      stage('Unit Tests - JUnit and Jacoco') {
+      steps {
+        sh "mvn test"
+      }
+      post {
+        always {
+          junit 'target/surefire-reports/*.xml'
+          jacoco execPattern: 'target/jacoco.exec'
+        }
+      }
+    }
 //    stage ('Docker build and Push') {
 //      steps {
       // outdate-approach-to-call docker.withRegistry('https://hub.docker.com/', 'docker-hub'){
