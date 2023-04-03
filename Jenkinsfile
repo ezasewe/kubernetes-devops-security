@@ -1,38 +1,33 @@
 pipeline {
   agent any
-   triggers {
-    githubPush()
-  }
 
   stages {
       stage('Build Artifact') {
             steps {
               sh "mvn clean package -DskipTests=true"
-              archive 'target/*.jar' 
+              archive 'target/*.jar' //so that they can be downloaded later
               
             }
       }
       stage('Unit Tests - JUnit and Jacoco') {
-      steps {
-        sh "mvn test"
-      }
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
-          jacoco execPattern: 'target/jacoco.exec'
+        steps {
+          sh "mvn test"
         }
+      }
+    stage('Mutation Tests - PIT') {
+      steps {
+        sh "mvn org.pitest:pitest-maven:mutationCoverage"
       }
     }
     stage ('Docker build and Push') {
       steps {
-      // outdate-approach-to-call docker.withRegistry('https://hub.docker.com/', 'docker-hub'){
+        // outdate-approach-to-call docker.withRegistry('https://hub.docker.com/', 'docker-hub'){}
         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
           sh 'printenv'
         sh 'docker build -t ezzy187/numeric-app:""$GIT_COMMIT"" .'
         sh 'docker push ezzy187/numeric-app:""$GIT_COMMIT""'
         }
-        
-      }
+      } 
     }
     stage('Kubernetes Deployment - DEV') {
       steps {
@@ -42,5 +37,12 @@ pipeline {
         }
       }
     }
-  }     
+    post {
+      always {
+          junit 'target/surefire-reports/*.xml'
+          jacoco execPattern: 'target/jacoco.exec'
+          pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+        }
+    }
+  }
 }
