@@ -31,12 +31,16 @@ pipeline {
            -Dsonar.login=sqp_a687a423777288db48acc806e74302a2a81d2116"
          }
          timeout(time: 2, unit: 'MINUTES') {
-              script {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    waitForQualityGate abortPipeline: true
-              }
+
+                // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                // true = set pipeline to UNSTABLE, false = don't
+                waitForQualityGate abortPipeline: true
          }
+      }
+    }
+    stage ('Vulnerability Scan - Docker') {
+      steps {
+        sh "mvn dependency-check: check"
       }
     }
     stage ('Docker build and Push') {
@@ -63,6 +67,7 @@ pipeline {
           junit 'target/surefire-reports/*.xml'
           jacoco execPattern: 'target/jacoco.exec'
           pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+          dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
       }
   }
 }
