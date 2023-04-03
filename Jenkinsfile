@@ -3,6 +3,7 @@ pipeline {
   triggers {
     githubPush()
   }
+
   stages {
       stage('Build Artifact') {
             steps {
@@ -21,15 +22,23 @@ pipeline {
         sh "mvn org.pitest:pitest-maven:mutationCoverage"
       }
     }
+    stage('SonarQube - SAST') {
+      steps {
+        sh "mvn clean verify sonar:sonar \
+        -Dsonar.projectKey=numeric-application \
+        -Dsonar.host.url=http://devsecops-demo.southafricanorth.cloudapp.azure.com:9000 \
+        -Dsonar.login=sqp_a687a423777288db48acc806e74302a2a81d2116"
+      }
+    }
     stage ('Docker build and Push') {
       steps {
-        // outdate-approach-to-call docker.withRegistry('https://hub.docker.com/', 'docker-hub'){}
+        // outdate-approach-to-call docker.withRegistry('https://hub.docker.com/', 'docker-hub'){
         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
           sh 'printenv'
-        sh 'docker build -t ezzy187/numeric-app:""$GIT_COMMIT"" .'
-        sh 'docker push ezzy187/numeric-app:""$GIT_COMMIT""'
+          sh 'docker build -t ezzy187/numeric-app:""$GIT_COMMIT"" .'
+          sh 'docker push ezzy187/numeric-app:""$GIT_COMMIT""'
         }
-      } 
+      }
     }
     stage('Kubernetes Deployment - DEV') {
       steps {
@@ -47,5 +56,4 @@ pipeline {
           pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
       }
   }
-  
 }
