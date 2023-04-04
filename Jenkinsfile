@@ -53,6 +53,9 @@ pipeline {
              "Trivy Scan":{
                       sh "bash trivy-docker-image-scan.sh"
              }
+        )
+      }
+    }
     stage ('Docker build and Push') {
       steps {
         // outdate-approach-to-call docker.withRegistry('https://hub.docker.com/', 'docker-hub'){
