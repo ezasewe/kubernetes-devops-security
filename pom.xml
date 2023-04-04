@@ -99,7 +99,7 @@
 			 </executions>
 			 <configuration>
 			  <format>ALL</format>
-			  <failBuildOnCVSS>11</failBuildOnCVSS> <!-- fail the build for CVSS greater than or equal to 9 -->
+			  <failBuildOnCVSS>8</failBuildOnCVSS> <!-- fail the build for CVSS greater than or equal to 9 -->
 
 			 <!--
 			  use internal mirroring of CVE contents
