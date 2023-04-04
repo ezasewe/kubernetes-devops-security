@@ -39,11 +39,11 @@ pipeline {
          }
       }
     }
-//    stage ('Vulnerability Scan - Docker') {
-//      steps {
-//        sh "mvn dependency-check: check"
-//      }
-//    }
+    stage ('Vulnerability Scan - Docker') {
+      steps {
+        sh "mvn dependency-check: check"
+      }
+    }
     stage ('Docker build and Push') {
       steps {
         // outdate-approach-to-call docker.withRegistry('https://hub.docker.com/', 'docker-hub'){
