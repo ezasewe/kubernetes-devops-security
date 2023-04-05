@@ -15,6 +15,7 @@ spec:
       labels:
         app: devsecops
     spec:
+      serviceAccountName: default
       containers:
       - image: replace
         name: devsecops-container
@@ -22,6 +23,7 @@ spec:
           runAsUser: 100
           allowPrivilegeEscalation: false
           runAsNonRoot: true
+          readOnlyRootFilesystem: true
 ---
 apiVersion: v1
 kind: Service
