@@ -18,6 +18,10 @@ spec:
       containers:
       - image: replace
         name: devsecops-container
+        securityContext:
+          runAsUser: 2000
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
 ---
 apiVersion: v1
 kind: Service
