@@ -19,7 +19,7 @@ spec:
       - image: replace
         name: devsecops-container
         securityContext:
-          runAsUser: 2000
+          runAsUser: 100
           allowPrivilegeEscalation: false
           runAsNonRoot: true
 ---
