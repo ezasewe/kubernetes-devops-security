@@ -16,14 +16,14 @@ spec:
         app: devsecops
     spec:
       volumes:
-      - name: tmp_vol
+      - name: tmpvol
         emptyDir: {}
       serviceAccountName: default
       containers: 
       - image: replace
         name: devsecops-container
         volumeMounts:
-        - name: tmp_vol
+        - name: tmpvol
           mountPath: /tmp
         securityContext:
           runAsUser: 100
