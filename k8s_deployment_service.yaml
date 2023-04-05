@@ -15,10 +15,16 @@ spec:
       labels:
         app: devsecops
     spec:
+      volumes:
+      - name: tmp_vol
+        emptyDir: {}
       serviceAccountName: default
-      containers:
+      containers: 
       - image: replace
         name: devsecops-container
+        volumeMounts:
+        - name: tmp_vol
+          mountPath: /tmp
         securityContext:
           runAsUser: 100
           allowPrivilegeEscalation: false
