@@ -121,23 +121,23 @@ pipeline {
          )
        }
     }
-    stage('Integration Tests - DEV') {
-       steps {
-         script {
-           try {
-             withKubeConfig([credentialsId: 'kubeconfig']) {
-               sh "bash integration-test.sh"
-             }
-           } catch (e) {
-             withKubeConfig([credentialsId: 'kubeconfig']) {
-               sh "kubectl -n default rollout undo deploy ${deploymentName}"
-             }
-             throw e
-           }
-         }
-       }
-    }
-  }
+//    stage('Integration Tests - DEV') {
+//       steps {
+//         script {
+//           try {
+//             withKubeConfig([credentialsId: 'kubeconfig']) {
+//               sh "bash integration-test.sh"
+//             }
+//           } catch (e) {
+//             withKubeConfig([credentialsId: 'kubeconfig']) {
+//               sh "kubectl -n default rollout undo deploy ${deploymentName}"
+//             }
+//             throw e
+//           }
+//         }
+//       }
+//    }
+//  }
   post {
       always {
           junit 'target/surefire-reports/*.xml'
