@@ -31,8 +31,6 @@
 		          <scope>import</scope>
 		            <type>pom</type>
               </dependency>
-              <dependency>
-	      </dependency>
 
 		 </dependencies>
 	</dependencyManagement>
