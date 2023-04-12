@@ -69,7 +69,7 @@ pipeline {
     }
     stage ('Docker build and Push') {
       steps {
-        // outdate-approach-to-call docker.withRegistry('https://hub.docker.com/', 'docker-hub'){
+        // outdate-approach-to-call docker.withRegistry('https://hub.docker.com/', 'docker-hub'){}
         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
           sh 'printenv'
           sh 'sudo docker build -t ezzy187/numeric-app:""$GIT_COMMIT"" .'
