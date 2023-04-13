@@ -53,8 +53,6 @@
 		 <groupId>org.springframework</groupId>
 		    <artifactId>spring-security</artifactId>
 		       <version>5.5.7</version>
-		          <scope>import</scope>
-			    <type>pom</type>
 	      </dependency>	      
 		 </dependencies>
 	</dependencyManagement>
