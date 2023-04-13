@@ -39,7 +39,9 @@
 	      <dependency>
 		 <groupId>org.springframework</groupId>
 		    <artifactId>spring-web</artifactId>
-		      <version>6.0.0</version>
+		     <version>6.0.0</version>
+		        <scope>import</scope>
+		          <type>pom</ytpe>	
 	      </dependency>
 	      <dependency>
 		 <groupId>org.yaml</groupId>
